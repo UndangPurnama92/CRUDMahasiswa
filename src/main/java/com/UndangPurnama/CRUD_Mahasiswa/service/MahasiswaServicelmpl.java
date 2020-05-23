@@ -29,13 +29,14 @@ public class MahasiswaServicelmpl implements MahasiswaService{
 
     @Override
     public Mahasiswa updateMahasiswa(Mahasiswa mahasiswa) {
-        return mahasiswaRepository.findAllById(mahasiswa.getId()).map(mahasiswaTemp ->{
+        return mahasiswaRepository.findById(mahasiswa.getId()).map(mahasiswaTemp ->{
             mahasiswaTemp.setId(mahasiswa.getId());
-            mahasiswaTemp.setNim(mahasiswa.getNIM());
-            mahasiswaTemp.setNamaMahasiswa(mahasiswa.getNamaMahasiswa());
+            mahasiswaTemp.setNim(mahasiswa.getNim());
+            mahasiswaTemp.setNama(mahasiswa.getNama());
+            mahasiswaTemp.setAlamat(mahasiswa.getAlamat());
             mahasiswaRepository.save(mahasiswaTemp);
             return mahasiswaTemp;
-        }).orElseThrow(()-> new ResourceNotFoundException("Mahasiswa [mahasiswaId=" + Mahasiswa.getId() + "] can't be found"));
+        }).orElseThrow(()-> new ResourceNotFoundException("Mahasiswa [mahasiswaId=" + mahasiswa.getId() + "] can't be found"));
     }
 
     @Override

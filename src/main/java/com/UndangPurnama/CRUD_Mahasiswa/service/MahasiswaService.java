@@ -13,5 +13,5 @@ public interface MahasiswaService {
 
     Mahasiswa updateMahasiswa(Mahasiswa mahasiswa);
 
-    void deleteMahasiswa(Mahasiswa mahasiswa);
+    void    deleteMahasiswa(Mahasiswa mahasiswa);
 }

@@ -58,21 +58,21 @@ public class GeneratorPdfReport {
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(mahasiswa.getNIM()));
+                cell = new PdfPCell(new Phrase(mahasiswa.getNim()));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(String.valueOf(mahasiswa.getNamaMahasiswa())));
+                cell = new PdfPCell(new Phrase(String.valueOf(mahasiswa.getNama())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase(String.valueOf(mahasiswa.getAlamat())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
             }

@@ -3,7 +3,7 @@ package com.UndangPurnama.CRUD_Mahasiswa.controller;
 import com.UndangPurnama.CRUD_Mahasiswa.entity.Mahasiswa;
 import com.UndangPurnama.CRUD_Mahasiswa.service.MahasiswaService;
 import com.UndangPurnama.CRUD_Mahasiswa.util.ExcelGenerator;
-import  com.UndangPurnama.CRUD_Mahasiswa.util.GeneratorPdfReport;
+import com.UndangPurnama.CRUD_Mahasiswa.util.GeneratorPdfReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +22,20 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/")
-public class MahasiswaController {
+public class MahasiswaController{
+
+    @Autowired
+    private MahasiswaService mahasiswaService;
+
+    @Autowired
+    private ExcelGenerator excelGenerator;
+
+    @GetMapping
+    public String index(Model model) {
+        model.addAttribute("mahasiswas", mahasiswaService.getMahasiswas());
+        return "index";
+}
+
     @GetMapping(value = "tambah")
     public String showTambahForm(Model model) {
         model.addAttribute("mahasiswa", new Mahasiswa());
@@ -31,39 +44,27 @@ public class MahasiswaController {
 
     @PostMapping(value = "tambah")
     public String tambahMahasiswaBaru(@ModelAttribute("mahasiswa") Mahasiswa mahasiswa) {
-        MahasiswaService.saveMahasiswa(mahasiswa);
+        mahasiswaService.saveMahasiswa(mahasiswa);
         return "redirect:/";
-    }
-
-    @Autowired
-    private Mahasiswa mahasiswa;
-
-    @Autowired
-    private ExcelGenerator excelGenerator;
-
-    @GetMapping
-    public String index(Model model) {
-        model.addAttribute(attributeName: "mahasiswas", MahasiswaService.getMahasiswas());
-        return "index";
     }
 
     @GetMapping(value = "edit/{id}")
     public String editMahasiswa(Model model, @PathVariable("id") Integer id) {
-        Mahasiswa mahasiswa = MahasiswaService.getMahasiswa(id);
+        Mahasiswa mahasiswa = mahasiswaService.getMahasiswa(id);
         model.addAttribute("mahasiswa", mahasiswa);
         return "edit";
     }
 
     @PostMapping(value = "edit")
     public String updateMahasiswa(@ModelAttribute("mahasiswa") Mahasiswa mahasiswa) {
-        MahasiswaService.updateMahasiswa(mahasiswa);
+        mahasiswaService.updateMahasiswa(mahasiswa);
         return "redirect:/";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deletingMahasiswa(@PathVariable("id") Integer id) {
-        Mahasiswa mahasiswa = MahasiswaService.getMahasiswa(id);
-        MahasiswaService.deleteMahasiswa(mahasiswa);
+        Mahasiswa mahasiswa = mahasiswaService.getMahasiswa(id);
+        mahasiswaService.deleteMahasiswa(mahasiswa);
         return "redirect:/";
     }
 
@@ -71,9 +72,9 @@ public class MahasiswaController {
             produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> listMahasiswaReport() {
 
-        List<Mahasiswa> MahasiswaList = MahasiswaService.getMahasiswas();
+        List<Mahasiswa> mahasiswaList = mahasiswaService.getMahasiswas();
 
-        ByteArrayInputStream bis = GeneratorPdfReport.listMahasiswasReport(MahasiswaList);
+        ByteArrayInputStream bis = GeneratorPdfReport.listMahasiswasReport(mahasiswaList);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=List-Mahasiswa.pdf");
@@ -87,7 +88,7 @@ public class MahasiswaController {
 
     @GetMapping("/xls")
     public ResponseEntity<InputStreamResource> excelMahasiswaReport() throws Exception {
-        List<Mahasiswa> mahasiswaList = MahasiswaService.getMahasiswas();
+        List<Mahasiswa> mahasiswaList = mahasiswaService.getMahasiswas();
 
         ByteArrayInputStream in = excelGenerator.exportExcel(mahasiswaList);
 
@@ -98,4 +99,3 @@ public class MahasiswaController {
 
     }
 }
-

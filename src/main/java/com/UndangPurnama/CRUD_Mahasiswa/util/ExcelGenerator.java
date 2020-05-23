@@ -66,8 +66,8 @@ public class ExcelGenerator {
                 Row row = sheet.createRow(rowIdx);
 
                 row.createCell(0).setCellValue(mahasiswa.getId());
-                row.createCell(1).setCellValue(mahasiswa.getNIM());
-                row.createCell(2).setCellValue(mahasiswa.getNamaMahasiswa());
+                row.createCell(1).setCellValue(mahasiswa.getNim());
+                row.createCell(2).setCellValue(mahasiswa.getNama());
                 row.createCell(3).setCellValue(mahasiswa.getAlamat());
                 rowIdx++;
             }
